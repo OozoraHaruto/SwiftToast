@@ -42,7 +42,7 @@ import Foundation
 ///         }
 ///       }
 ///     }
-@available(iOS 14.0, macOS 11.0, *)
+@available(iOS 15.0, macOS 11.0, watchOS 8.0, *)
 public class ToastCoordinator: ObservableObject {
   @Published var shownToast: Toast? = nil
   private var toastQueue: [Toast] = []

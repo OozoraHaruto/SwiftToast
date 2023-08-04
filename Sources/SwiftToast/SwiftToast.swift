@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// Data here is used to create the toast Views
-@available(iOS 14.0, macOS 11.0, *)
+@available(iOS 15.0, macOS 11.0, watchOS 8.0, *)
 public struct Toast: Equatable {
   /// The type of toast UI to show
   public var type: ToastType = .boot
@@ -26,11 +26,11 @@ public struct Toast: Equatable {
   public var systemIcon: String = ""
 
   /// The title message of the toast (Uses .headline)
-  public var title: String
-  
+  public var title: AttributedString
+
   /// The message of the toast (Uses .caption)
-  public var message: String = ""
-  
+  public var message: AttributedString = ""
+
   /// To show the icon or not. (See `ToastTheme` for more info`
   public var showIcon: Bool = false
   
@@ -71,8 +71,8 @@ public struct Toast: Equatable {
     self.type = type
     self.theme = theme
     self.systemIcon = theme == .custom && systemIcon == "" ? systemIcon : theme.iconFileName
-    self.title = title
-    self.message = message
+    self.title = AttributedString(title)
+    self.message = AttributedString(message)
     self.showIcon = showIcon
     self.showCancel = showCancel
     self.position = position
@@ -97,6 +97,76 @@ public struct Toast: Equatable {
               systemIcon: String = "",
               title: String,
               message: String = "",
+              showIcon: Bool = false,
+              showCancel: Bool = false,
+              position: ToastPosition = .top,
+              duration: Double = 3,
+              swipeToDismiss: Bool = true) {
+    self.type = .boot
+    self.theme = .custom
+    self.bgColor = bgColor
+    self.foregroundColor = foregroundColor
+    self.systemIcon = systemIcon
+    self.title = AttributedString(title)
+    self.message = AttributedString(message)
+    self.showIcon = showIcon
+    self.showCancel = showCancel
+    self.position = position
+    self.duration = duration
+    self.swipeToDismiss = swipeToDismiss
+  }
+
+  /// Create a toast
+  /// - Parameters:
+  ///   - type: The type of toast UI to show
+  ///   - theme:The color of the toast
+  ///   - systemIcon: The icon for the toast
+  ///   - title: The title message of the toast (Uses .headline)
+  ///   - message: The message of the toast (Uses .caption)
+  ///   - showIcon: To show the icon or not.
+  ///   - showCancel: To show the cancel/close icon
+  ///   - position: The position of where the toast will appear
+  ///   - duration: The duration of the toast to be shown
+  ///   - swipeToDismiss: Swipe toast to dismiss (iOS Only !!!)
+  public init(type: ToastType = .boot,
+              theme: ToastTheme = .info,
+              systemIcon: String = "",
+              title: AttributedString,
+              message: AttributedString = "",
+              showIcon: Bool = false,
+              showCancel: Bool = false,
+              position: ToastPosition = .top,
+              duration: Double = 3,
+              swipeToDismiss: Bool = true) {
+    self.type = type
+    self.theme = theme
+    self.systemIcon = theme == .custom && systemIcon == "" ? systemIcon : theme.iconFileName
+    self.title = title
+    self.message = message
+    self.showIcon = showIcon
+    self.showCancel = showCancel
+    self.position = position
+    self.duration = duration
+    self.swipeToDismiss = swipeToDismiss
+  }
+
+  /// Create a toast with custom colors (only support boot)
+  /// - Parameters:
+  ///   - bgColor: The background color of the toast
+  ///   - foregroundColor: The foreground color of the toast
+  ///   - systemIcon: The icon for the toast
+  ///   - title: The title message of the toast (Uses .headline)
+  ///   - message: The message of the toast (Uses .caption)
+  ///   - showIcon: To show the icon or not.
+  ///   - showCancel: To show the cancel/close icon
+  ///   - position: The position of where the toast will appear
+  ///   - duration: The duration of the toast to be shown
+  ///   - swipeToDismiss: Swipe toast to dismiss (iOS Only !!!)
+  public init(bgColor: Color,
+              foregroundColor: Color,
+              systemIcon: String = "",
+              title: AttributedString,
+              message: AttributedString = "",
               showIcon: Bool = false,
               showCancel: Bool = false,
               position: ToastPosition = .top,
@@ -142,6 +212,7 @@ public enum ToastTheme {
   case secondary
   case custom
 
+  @available(iOS 15.0, macOS 11.0, watchOS 8.0, *)
   var themeColor: Color {
     switch self {
       case .error: return .error
@@ -165,7 +236,8 @@ public enum ToastTheme {
       case .custom: return "info.circle.fill"
     }
   }
-  
+
+  @available(iOS 15.0, macOS 11.0, watchOS 8.0, *)
   var bootBGThemeColor: Color {
     switch self {
       case .error: return .bgError

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@available(iOS 14.0, macOS 11.0, *)
+@available(iOS 15.0, macOS 11.0, watchOS 8.0, *)
 struct BootToastView<Content: View>: View {
   let color: Color
   @ViewBuilder var content: Content

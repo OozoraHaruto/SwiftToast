@@ -12,7 +12,7 @@ import UIKit
 import AppKit
 #endif
 
-@available(iOS 14.0, macOS 11.0, *)
+@available(iOS 15.0, macOS 11.0, watchOS 8.0, *)
 extension Color {
   static var primary: Color{
     return Color.init("colPrimary", bundle: .module)

@@ -33,7 +33,10 @@ public struct Toast: Equatable {
   
   /// The duration of the toast to be shown
   public var duration: Double = 3
-  
+
+  /// Swipe toast to dismiss (iOS Only !!!)
+  public var swipeToDismiss: Bool = true
+
   /// Create a toast
   /// - Parameters:
   ///   - type: The type of toast UI to show
@@ -44,6 +47,7 @@ public struct Toast: Equatable {
   ///   - showCancel: To show the cancel/close icon
   ///   - position: The position of where the toast will appear
   ///   - duration: The duration of the toast to be shown
+  ///   - swipeToDismiss: Swipe toast to dismiss (iOS Only !!!)
   public init(type: ToastType = .boot,
               theme: ToastTheme = .info,
               title: String,
@@ -51,7 +55,8 @@ public struct Toast: Equatable {
               showIcon: Bool = false,
               showCancel: Bool = false,
               position: ToastPosition = .top,
-              duration: Double = 3) {
+              duration: Double = 3,
+              swipeToDismiss: Bool = true) {
     self.type = type
     self.theme = theme
     self.title = title
@@ -60,6 +65,7 @@ public struct Toast: Equatable {
     self.showCancel = showCancel
     self.position = position
     self.duration = duration
+    self.swipeToDismiss = swipeToDismiss
   }
 }
 

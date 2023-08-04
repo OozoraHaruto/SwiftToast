@@ -57,7 +57,14 @@ public struct ToastModifier: ViewModifier {
           showCancel: toast.showCancel) {
             dismissToast()
           }
-        
+#if os(iOS)
+          .gesture(DragGesture().onEnded {_ in
+            if toast.swipeToDismiss {
+              dismissToast()
+            }
+          })
+#endif
+
         if toast.position == .top {
           Spacer()
         }

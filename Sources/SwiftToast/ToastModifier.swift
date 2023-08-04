@@ -50,6 +50,9 @@ public struct ToastModifier: ViewModifier {
         
         ToastView(
           type: toast.type,
+          bgColor: toast.bgColor,
+          foregroundColor: toast.foregroundColor,
+          systemIcon: toast.systemIcon,
           theme: toast.theme,
           title: toast.title,
           message: toast.message,

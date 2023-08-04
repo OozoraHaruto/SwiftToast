@@ -15,7 +15,16 @@ public struct Toast: Equatable {
   
   /// The color of the toast
   public var theme: ToastTheme = .info
-  
+
+  /// The custom background color of the toast
+  public var bgColor: Color?
+
+  /// The custom foreground color of the toast
+  public var foregroundColor: Color?
+
+  /// The icon of the toast
+  public var systemIcon: String = ""
+
   /// The title message of the toast (Uses .headline)
   public var title: String
   
@@ -41,6 +50,7 @@ public struct Toast: Equatable {
   /// - Parameters:
   ///   - type: The type of toast UI to show
   ///   - theme:The color of the toast
+  ///   - systemIcon: The icon for the toast
   ///   - title: The title message of the toast (Uses .headline)
   ///   - message: The message of the toast (Uses .caption)
   ///   - showIcon: To show the icon or not.
@@ -50,6 +60,7 @@ public struct Toast: Equatable {
   ///   - swipeToDismiss: Swipe toast to dismiss (iOS Only !!!)
   public init(type: ToastType = .boot,
               theme: ToastTheme = .info,
+              systemIcon: String = "",
               title: String,
               message: String = "",
               showIcon: Bool = false,
@@ -59,6 +70,43 @@ public struct Toast: Equatable {
               swipeToDismiss: Bool = true) {
     self.type = type
     self.theme = theme
+    self.systemIcon = theme == .custom && systemIcon == "" ? systemIcon : theme.iconFileName
+    self.title = title
+    self.message = message
+    self.showIcon = showIcon
+    self.showCancel = showCancel
+    self.position = position
+    self.duration = duration
+    self.swipeToDismiss = swipeToDismiss
+  }
+
+  /// Create a toast with custom colors (only support boot)
+  /// - Parameters:
+  ///   - bgColor: The background color of the toast
+  ///   - foregroundColor: The foreground color of the toast
+  ///   - systemIcon: The icon for the toast
+  ///   - title: The title message of the toast (Uses .headline)
+  ///   - message: The message of the toast (Uses .caption)
+  ///   - showIcon: To show the icon or not.
+  ///   - showCancel: To show the cancel/close icon
+  ///   - position: The position of where the toast will appear
+  ///   - duration: The duration of the toast to be shown
+  ///   - swipeToDismiss: Swipe toast to dismiss (iOS Only !!!)
+  public init(bgColor: Color,
+              foregroundColor: Color,
+              systemIcon: String = "",
+              title: String,
+              message: String = "",
+              showIcon: Bool = false,
+              showCancel: Bool = false,
+              position: ToastPosition = .top,
+              duration: Double = 3,
+              swipeToDismiss: Bool = true) {
+    self.type = .boot
+    self.theme = .custom
+    self.bgColor = bgColor
+    self.foregroundColor = foregroundColor
+    self.systemIcon = systemIcon
     self.title = title
     self.message = message
     self.showIcon = showIcon
@@ -78,11 +126,13 @@ public struct Toast: Equatable {
 ///   - `.success`: green color
 ///   - `.primary`: blue color
 ///   - `.secondary`: gray color
+///   - `.custom`: light blue color if custom color not passed
 /// - Icons used
 ///   - `.info`, `.primary`, `.secondary` uses : `"info.circle.fill"`
 ///   - `.warning` uses: `"exclamationmark.triangle.fill"`
 ///   - `.success` uses: `"checkmark.circle.fill"`
 ///   - `.error` uses: `"xmark.circle.fill"`
+///   - `.custom`: uses: `"info.circle.fill"` if custom color not passed
 public enum ToastTheme {
   case error
   case warning
@@ -90,7 +140,8 @@ public enum ToastTheme {
   case info
   case primary
   case secondary
-  
+  case custom
+
   var themeColor: Color {
     switch self {
       case .error: return .error
@@ -99,6 +150,7 @@ public enum ToastTheme {
       case .success: return .success
       case .primary: return .primary
       case .secondary: return .secondaryColor
+      case .custom: return .info
     }
   }
   
@@ -110,6 +162,7 @@ public enum ToastTheme {
       case .warning: return "exclamationmark.triangle.fill"
       case .success: return "checkmark.circle.fill"
       case .error: return "xmark.circle.fill"
+      case .custom: return "info.circle.fill"
     }
   }
   
@@ -121,6 +174,7 @@ public enum ToastTheme {
       case .success: return .bgSuccess
       case .primary: return .bgPrimary
       case .secondary: return .bgSecondary
+      case .custom: return .bgInfo
     }
   }
 }

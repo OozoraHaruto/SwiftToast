@@ -17,6 +17,9 @@ let TOAST_HORIZONTAL_PADDING: CGFloat = 16
 @available(iOS 14.0, macOS 11.0, *)
 struct ToastView: View {
   var type: ToastType
+  var bgColor: Color?
+  var foregroundColor: Color?
+  var systemIcon: String
   var theme: ToastTheme
   var title: String
   var message: String = ""
@@ -29,6 +32,7 @@ struct ToastView: View {
       if type == .fancy {
         FancyToastView(theme: theme) {
           ToastInnerView(theme: theme,
+                         systemIcon: theme.iconFileName,
                          title: title,
                          message: message,
                          showIcon: showIcon,
@@ -36,13 +40,15 @@ struct ToastView: View {
                          onCancelTapped: onCancelTapped)
         }
       } else if type == .boot {
-        BootToastView(theme: theme) {
+        BootToastView(color: bgColor != nil && theme == .custom ? bgColor! : theme.bootBGThemeColor) {
           ToastInnerView(theme: theme,
+                         foregroundColor: foregroundColor,
+                         systemIcon: systemIcon,
                          title: title,
                          message: message,
                          showIcon: showIcon,
                          showCancel: showCancel,
-                         textColor: theme.themeColor,
+                         textColor: foregroundColor != nil && theme == .custom ? foregroundColor! : theme.themeColor,
                          onCancelTapped: onCancelTapped)
         }
       }
@@ -60,18 +66,29 @@ struct ToastView: View {
 @available(iOS 14.0, macOS 11.0, *)
 struct ToastInnerView: View {
   var theme: ToastTheme
+  var foregroundColor: Color?
+  var systemIcon: String = ""
   var title: String
   var message: String
   var showIcon: Bool
   var showCancel: Bool
   var textColor: Color?
   var onCancelTapped: (() -> Void)
-  
+
+  var iconColor: Color {
+    if let foregroundColor = foregroundColor,
+       theme == .custom {
+      return foregroundColor
+    } else {
+      return theme.themeColor
+    }
+  }
+
   var body: some View {
     HStack(alignment: .center) {
       if showIcon {
-        Image(systemName: theme.iconFileName)
-          .foregroundColor(theme.themeColor)
+        Image(systemName: systemIcon)
+          .foregroundColor(iconColor)
       }
       
       VStack(alignment: .leading) {
@@ -107,30 +124,141 @@ struct ToastView_Previews: PreviewProvider {
     ScrollView {
       VStack(spacing: 20) {
         VStack(spacing: 20) {
-          ToastView(type:.boot, theme: .info, title: "情報", message: "航成大好き")
-          ToastView(type:.boot, theme: .success, title: "成功")
-          ToastView(type:.boot, theme: .warning, title: "注意", message: "航成大好き")
-          ToastView(type:.boot, theme: .error, title: "エラー", message: "航成大好き", showCancel: true)
-          ToastView(type:.boot, theme: .primary, title: "情報", message: "航成大好き")
-          ToastView(type:.boot, theme: .secondary, title: "情報", message: "航成大好き")
+          ToastView(type:.boot,
+                    bgColor: Color("colSky1").opacity(0.8),
+                    foregroundColor: .white,
+                    systemIcon: ToastTheme.info.iconFileName,
+                    theme: .info,
+                    title: "情報",
+                    message: "航成大好き")
+          ToastView(type:.boot,
+                    bgColor: Color("colSky1").opacity(0.8),
+                    foregroundColor: .white,
+                    systemIcon: "heart.fill",
+                    theme: .info,
+                    title: "情報",
+                    message: "航成大好き")
+          ToastView(type:.boot,
+                    bgColor: Color("colSky1").opacity(0.8),
+                    foregroundColor: .white,
+                    systemIcon: ToastTheme.info.iconFileName,
+                    theme: .info,
+                    title: "情報",
+                    message: "航成大好き",
+                    showIcon: true)
+          ToastView(type:.boot,
+                    bgColor: Color("colSky1").opacity(0.8),
+                    foregroundColor: .white,
+                    systemIcon: "heart.fill",
+                    theme: .info,
+                    title: "情報",
+                    message: "航成大好き",
+                    showIcon: true)
         }
         Spacer(minLength: 20)
         VStack(spacing: 20) {
-          ToastView(type:.fancy, theme: .info, title: "情報", message: "航成大好き")
-          ToastView(type:.fancy, theme: .success, title: "成功")
-          ToastView(type:.fancy, theme: .warning, title: "注意", message: "航成大好き")
-          ToastView(type:.fancy, theme: .error, title: "エラー", message: "航成大好き", showCancel: true)
-          ToastView(type:.fancy, theme: .primary, title: "情報", message: "航成大好き")
-          ToastView(type:.fancy, theme: .secondary, title: "情報", message: "航成大好き")
+          ToastView(type:.boot,
+                    systemIcon: ToastTheme.info.iconFileName,
+                    theme: .info,
+                    title: "情報",
+                    message: "航成大好き")
+          ToastView(type:.boot,
+                    systemIcon: ToastTheme.success.iconFileName,
+                    theme: .success,
+                    title: "成功")
+          ToastView(type:.boot,
+                    systemIcon: ToastTheme.warning.iconFileName,
+                    theme: .warning,
+                    title: "注意",
+                    message: "航成大好き")
+          ToastView(type:.boot,
+                    systemIcon: ToastTheme.error.iconFileName,
+                    theme: .error,
+                    title: "エラー",
+                    message: "航成大好き",
+                    showCancel: true)
+          ToastView(type:.boot,
+                    systemIcon: ToastTheme.primary.iconFileName,
+                    theme: .primary,
+                    title: "情報",
+                    message: "航成大好き")
+          ToastView(type:.boot,
+                    systemIcon: ToastTheme.secondary.iconFileName,
+                    theme: .secondary,
+                    title: "情報",
+                    message: "航成大好き")
         }
         Spacer(minLength: 20)
         VStack(spacing: 20) {
-          ToastView(type:.fancy, theme: .info, title: "情報", message: "航成大好き", showIcon: true)
-          ToastView(type:.fancy, theme: .success, title: "成功", showIcon: true)
-          ToastView(type:.fancy, theme: .warning, title: "注意", message: "航成大好き", showIcon: true)
-          ToastView(type:.fancy, theme: .error, title: "エラー", message: "航成大好き", showIcon: true, showCancel: true)
-          ToastView(type:.fancy, theme: .primary, title: "情報", message: "航成大好き", showIcon: true)
-          ToastView(type:.fancy, theme: .secondary, title: "情報", message: "航成大好き", showIcon: true)
+          ToastView(type:.fancy,
+                    systemIcon: ToastTheme.info.iconFileName,
+                    theme: .info,
+                    title: "情報",
+                    message: "航成大好き")
+          ToastView(type:.fancy,
+                    systemIcon: ToastTheme.success.iconFileName,
+                    theme: .success,
+                    title: "成功")
+          ToastView(type:.fancy,
+                    systemIcon: ToastTheme.warning.iconFileName,
+                    theme: .warning,
+                    title: "注意",
+                    message: "航成大好き")
+          ToastView(type:.fancy,
+                    systemIcon: ToastTheme.error.iconFileName,
+                    theme: .error,
+                    title: "エラー",
+                    message: "航成大好き",
+                    showCancel: true)
+          ToastView(type:.fancy,
+                    systemIcon: ToastTheme.primary.iconFileName,
+                    theme: .primary,
+                    title: "情報",
+                    message: "航成大好き")
+          ToastView(type:.fancy,
+                    systemIcon: ToastTheme.secondary.iconFileName,
+                    theme: .secondary,
+                    title: "情報",
+                    message: "航成大好き")
+        }
+        Spacer(minLength: 20)
+        VStack(spacing: 20) {
+          ToastView(type:.fancy,
+                    systemIcon: ToastTheme.info.iconFileName,
+                    theme: .info,
+                    title: "情報",
+                    message: "航成大好き",
+                    showIcon: true)
+          ToastView(type:.fancy,
+                    systemIcon: ToastTheme.success.iconFileName,
+                    theme: .success,
+                    title: "成功",
+                    showIcon: true)
+          ToastView(type:.fancy,
+                    systemIcon: ToastTheme.warning.iconFileName,
+                    theme: .warning,
+                    title: "注意",
+                    message: "航成大好き",
+                    showIcon: true)
+          ToastView(type:.fancy,
+                    systemIcon: ToastTheme.error.iconFileName,
+                    theme: .error,
+                    title: "エラー",
+                    message: "航成大好き",
+                    showIcon: true,
+                    showCancel: true)
+          ToastView(type:.fancy,
+                    systemIcon: ToastTheme.primary.iconFileName,
+                    theme: .primary,
+                    title: "情報",
+                    message: "航成大好き",
+                    showIcon: true)
+          ToastView(type:.fancy,
+                    systemIcon: ToastTheme.secondary.iconFileName,
+                    theme: .secondary,
+                    title: "情報",
+                    message: "航成大好き",
+                    showIcon: true)
         }
       }
     }

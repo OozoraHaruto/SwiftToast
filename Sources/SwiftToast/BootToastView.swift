@@ -9,11 +9,11 @@ import SwiftUI
 
 @available(iOS 14.0, macOS 11.0, *)
 struct BootToastView<Content: View>: View {
-  let theme: ToastTheme
+  let color: Color
   @ViewBuilder var content: Content
   
   var body: some View {
     content
-      .background(theme.bootBGThemeColor)
+      .background(color)
   }
 }

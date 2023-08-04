@@ -63,9 +63,9 @@ extension Color {
   }
   
   static var systemBackground: Color {
-#if canImport(UIKit)
+#if os(iOS)
     return Color(.systemBackground)
-#elseif canImport(AppKit)
+#elseif os(macOS)
     return Color(.windowBackgroundColor)
 #else
     return Color.white
@@ -73,9 +73,9 @@ extension Color {
   }
   
   static var label: Color {
-#if canImport(UIKit)
+#if os(iOS)
     return Color(.label)
-#elseif canImport(AppKit)
+#elseif os(macOS)
     return Color(.labelColor)
 #else
     return Color.black

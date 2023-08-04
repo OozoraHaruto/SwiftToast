@@ -46,6 +46,14 @@ public struct Toast: Equatable {
   /// Swipe toast to dismiss (iOS Only !!!)
   public var swipeToDismiss: Bool = true
 
+  public var showMask: Bool = false
+
+  public var maskColor: Color = .systemBackground
+
+  public var maskOpacity: CGFloat = 0.7
+
+  public var tapMaskToDismiss: Bool = false
+
   /// Create a toast
   /// - Parameters:
   ///   - type: The type of toast UI to show
@@ -58,6 +66,10 @@ public struct Toast: Equatable {
   ///   - position: The position of where the toast will appear
   ///   - duration: The duration of the toast to be shown
   ///   - swipeToDismiss: Swipe toast to dismiss (iOS Only !!!)
+  ///   - showMask: To show mask
+  ///   - showColor: Set the color of the mask
+  ///   - maskOpacity: Set the opcaity of the mask
+  ///   - tapMaskToDismiss: Tap the mask to dismiss toast
   public init(type: ToastType = .boot,
               theme: ToastTheme = .info,
               systemIcon: String = "",
@@ -67,7 +79,11 @@ public struct Toast: Equatable {
               showCancel: Bool = false,
               position: ToastPosition = .top,
               duration: Double = 3,
-              swipeToDismiss: Bool = true) {
+              swipeToDismiss: Bool = true,
+              showMask: Bool = false,
+              maskColor: Color = Color.clear,
+              maskOpacity: CGFloat = 0.7,
+              tapMaskToDismiss: Bool = false) {
     self.type = type
     self.theme = theme
     self.systemIcon = theme == .custom && systemIcon == "" ? systemIcon : theme.iconFileName
@@ -78,6 +94,10 @@ public struct Toast: Equatable {
     self.position = position
     self.duration = duration
     self.swipeToDismiss = swipeToDismiss
+    self.showMask = showMask
+    self.maskColor = maskColor
+    self.maskOpacity = maskOpacity
+    self.tapMaskToDismiss = tapMaskToDismiss
   }
 
   /// Create a toast with custom colors (only support boot)
@@ -92,6 +112,10 @@ public struct Toast: Equatable {
   ///   - position: The position of where the toast will appear
   ///   - duration: The duration of the toast to be shown
   ///   - swipeToDismiss: Swipe toast to dismiss (iOS Only !!!)
+  ///   - showMask: To show mask
+  ///   - showColor: Set the color of the mask
+  ///   - maskOpacity: Set the opcaity of the mask
+  ///   - tapMaskToDismiss: Tap the mask to dismiss toast
   public init(bgColor: Color,
               foregroundColor: Color,
               systemIcon: String = "",
@@ -101,7 +125,11 @@ public struct Toast: Equatable {
               showCancel: Bool = false,
               position: ToastPosition = .top,
               duration: Double = 3,
-              swipeToDismiss: Bool = true) {
+              swipeToDismiss: Bool = true,
+              showMask: Bool = false,
+              maskColor: Color = Color.clear,
+              maskOpacity: CGFloat = 0.7,
+              tapMaskToDismiss: Bool = false) {
     self.type = .boot
     self.theme = .custom
     self.bgColor = bgColor
@@ -114,6 +142,10 @@ public struct Toast: Equatable {
     self.position = position
     self.duration = duration
     self.swipeToDismiss = swipeToDismiss
+    self.showMask = showMask
+    self.maskColor = maskColor
+    self.maskOpacity = maskOpacity
+    self.tapMaskToDismiss = tapMaskToDismiss
   }
 
   /// Create a toast
@@ -128,6 +160,10 @@ public struct Toast: Equatable {
   ///   - position: The position of where the toast will appear
   ///   - duration: The duration of the toast to be shown
   ///   - swipeToDismiss: Swipe toast to dismiss (iOS Only !!!)
+  ///   - showMask: To show mask
+  ///   - showColor: Set the color of the mask
+  ///   - maskOpacity: Set the opcaity of the mask
+  ///   - tapMaskToDismiss: Tap the mask to dismiss toast
   public init(type: ToastType = .boot,
               theme: ToastTheme = .info,
               systemIcon: String = "",
@@ -137,7 +173,11 @@ public struct Toast: Equatable {
               showCancel: Bool = false,
               position: ToastPosition = .top,
               duration: Double = 3,
-              swipeToDismiss: Bool = true) {
+              swipeToDismiss: Bool = true,
+              showMask: Bool = false,
+              maskColor: Color = Color.clear,
+              maskOpacity: CGFloat = 0.7,
+              tapMaskToDismiss: Bool = false) {
     self.type = type
     self.theme = theme
     self.systemIcon = theme == .custom && systemIcon == "" ? systemIcon : theme.iconFileName
@@ -148,6 +188,10 @@ public struct Toast: Equatable {
     self.position = position
     self.duration = duration
     self.swipeToDismiss = swipeToDismiss
+    self.showMask = showMask
+    self.maskColor = maskColor
+    self.maskOpacity = maskOpacity
+    self.tapMaskToDismiss = tapMaskToDismiss
   }
 
   /// Create a toast with custom colors (only support boot)
@@ -162,6 +206,10 @@ public struct Toast: Equatable {
   ///   - position: The position of where the toast will appear
   ///   - duration: The duration of the toast to be shown
   ///   - swipeToDismiss: Swipe toast to dismiss (iOS Only !!!)
+  ///   - showMask: To show mask
+  ///   - showColor: Set the color of the mask
+  ///   - maskOpacity: Set the opcaity of the mask
+  ///   - tapMaskToDismiss: Tap the mask to dismiss toast
   public init(bgColor: Color,
               foregroundColor: Color,
               systemIcon: String = "",
@@ -171,7 +219,11 @@ public struct Toast: Equatable {
               showCancel: Bool = false,
               position: ToastPosition = .top,
               duration: Double = 3,
-              swipeToDismiss: Bool = true) {
+              swipeToDismiss: Bool = true,
+              showMask: Bool = false,
+              maskColor: Color = Color.clear,
+              maskOpacity: CGFloat = 0.7,
+              tapMaskToDismiss: Bool = false) {
     self.type = .boot
     self.theme = .custom
     self.bgColor = bgColor
@@ -184,6 +236,10 @@ public struct Toast: Equatable {
     self.position = position
     self.duration = duration
     self.swipeToDismiss = swipeToDismiss
+    self.showMask = showMask
+    self.maskColor = maskColor
+    self.maskOpacity = maskOpacity
+    self.tapMaskToDismiss = tapMaskToDismiss
   }
 }
 

@@ -33,6 +33,19 @@ public struct ToastModifier: ViewModifier {
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .overlay(
         ZStack {
+          if let toast = toast,
+             toast.showMask {
+            toast.maskColor
+              .opacity(toast.maskOpacity)
+              .ignoresSafeArea(.all)
+              .blur(radius: 20)
+              .onTapGesture {
+                if toast.tapMaskToDismiss {
+                  dismissToast()
+                }
+              }
+          }
+
           mainToastView()
         }.animation(.spring(), value: toast)
       )
@@ -43,50 +56,35 @@ public struct ToastModifier: ViewModifier {
   
   @ViewBuilder func mainToastView() -> some View {
     if let toast = toast {
-      ZStack{
-        if toast.showMask {
-          toast.maskColor
-            .opacity(toast.maskOpacity)
-            .ignoresSafeArea(.all)
-            .blur(radius: 20)
-            .onTapGesture {
-              if toast.tapMaskToDismiss {
-                dismissToast()
-              }
-            }
+      VStack {
+        if toast.position == .bottom {
+          Spacer()
         }
 
-        VStack {
-          if toast.position == .bottom {
-            Spacer()
+        ToastView(
+          type: toast.type,
+          bgColor: toast.bgColor,
+          foregroundColor: toast.foregroundColor,
+          systemIcon: toast.systemIcon,
+          theme: toast.theme,
+          title: toast.title,
+          message: toast.message,
+          showIcon: toast.showIcon,
+          showCancel: toast.showCancel) {
+            dismissToast()
           }
-
-          ToastView(
-            type: toast.type,
-            bgColor: toast.bgColor,
-            foregroundColor: toast.foregroundColor,
-            systemIcon: toast.systemIcon,
-            theme: toast.theme,
-            title: toast.title,
-            message: toast.message,
-            showIcon: toast.showIcon,
-            showCancel: toast.showCancel) {
+#if os(iOS)
+          .gesture(DragGesture().onEnded {_ in
+            if toast.swipeToDismiss {
               dismissToast()
             }
-  #if os(iOS)
-            .gesture(DragGesture().onEnded {_ in
-              if toast.swipeToDismiss {
-                dismissToast()
-              }
-            })
-  #endif
+          })
+#endif
 
-          if toast.position == .top {
-            Spacer()
-          }
+        if toast.position == .top {
+          Spacer()
         }
-      }
-      .transition(toast.showMask ? .scale : .move(edge: toast.position == .top ? .top : .bottom))
+      }.transition(toast.showMask ? .scale : .move(edge: toast.position == .top ? .top : .bottom))
     }
   }
   

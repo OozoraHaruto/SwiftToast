@@ -50,7 +50,7 @@ public struct Toast: Equatable {
 
   public var maskColor: Color = .systemBackground
 
-  public var maskOpacity: CGFloat = 0.7
+  public var maskOpacity: CGFloat = 0.1
 
   public var tapMaskToDismiss: Bool = false
 
@@ -82,7 +82,7 @@ public struct Toast: Equatable {
               swipeToDismiss: Bool = true,
               showMask: Bool = false,
               maskColor: Color = Color.clear,
-              maskOpacity: CGFloat = 0.7,
+              maskOpacity: CGFloat = 0.1,
               tapMaskToDismiss: Bool = false) {
     self.type = type
     self.theme = theme
@@ -128,7 +128,7 @@ public struct Toast: Equatable {
               swipeToDismiss: Bool = true,
               showMask: Bool = false,
               maskColor: Color = Color.clear,
-              maskOpacity: CGFloat = 0.7,
+              maskOpacity: CGFloat = 0.1,
               tapMaskToDismiss: Bool = false) {
     self.type = .boot
     self.theme = .custom
@@ -176,7 +176,7 @@ public struct Toast: Equatable {
               swipeToDismiss: Bool = true,
               showMask: Bool = false,
               maskColor: Color = Color.clear,
-              maskOpacity: CGFloat = 0.7,
+              maskOpacity: CGFloat = 0.1,
               tapMaskToDismiss: Bool = false) {
     self.type = type
     self.theme = theme
@@ -222,7 +222,7 @@ public struct Toast: Equatable {
               swipeToDismiss: Bool = true,
               showMask: Bool = false,
               maskColor: Color = Color.clear,
-              maskOpacity: CGFloat = 0.7,
+              maskOpacity: CGFloat = 0.1,
               tapMaskToDismiss: Bool = false) {
     self.type = .boot
     self.theme = .custom

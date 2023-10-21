@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// Data here is used to create the toast Views
-@available(iOS 15.0, macOS 11.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, watchOS 8.0, *)
 public struct Toast: Equatable {
   /// The type of toast UI to show
   public var type: ToastType = .boot

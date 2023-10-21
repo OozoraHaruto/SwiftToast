@@ -7,7 +7,7 @@ let package = Package(
     name: "SwiftToast",
     platforms: [
       .iOS(.v15),
-      .macOS(.v11),
+      .macOS(.v12),
       .watchOS(.v8),
     ],
     products: [

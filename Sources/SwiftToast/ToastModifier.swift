@@ -15,7 +15,7 @@ import SwiftUI
 ///
 ///       .modifier(ToastModifier())
 ///
-@available(iOS 15.0, macOS 11.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, watchOS 8.0, *)
 public struct ToastModifier: ViewModifier {
   @EnvironmentObject var toastCoordinator: ToastCoordinator
   @State private var workItem: DispatchWorkItem?

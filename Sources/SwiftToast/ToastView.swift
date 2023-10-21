@@ -14,7 +14,7 @@ let TOAST_SHADOW_X: CGFloat = 0
 let TOAST_SHADOW_Y: CGFloat = 1
 let TOAST_HORIZONTAL_PADDING: CGFloat = 16
 
-@available(iOS 15.0, macOS 11.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, watchOS 8.0, *)
 struct ToastView: View {
   var type: ToastType
   var bgColor: Color?
@@ -63,7 +63,7 @@ struct ToastView: View {
   }
 }
 
-@available(iOS 15.0, macOS 11.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, watchOS 8.0, *)
 struct ToastInnerView: View {
   var theme: ToastTheme
   var foregroundColor: Color?
@@ -118,7 +118,7 @@ struct ToastInnerView: View {
   }
 }
 
-@available(iOS 15.0, macOS 11.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, watchOS 8.0, *)
 struct ToastView_Previews: PreviewProvider {
   static var previews: some View {
     ScrollView {

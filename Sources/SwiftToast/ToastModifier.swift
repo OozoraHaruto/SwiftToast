@@ -19,15 +19,15 @@ import SwiftUI
 public struct ToastModifier: ViewModifier {
   @EnvironmentObject var toastCoordinator: ToastCoordinator
   @State private var workItem: DispatchWorkItem?
-  
+
   public init() {
     self.workItem = nil
   }
-  
+
   var toast: Toast? {
     return toastCoordinator.shownToast
   }
-  
+
   public func body(content: Content) -> some View {
     content
       .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -39,11 +39,13 @@ public struct ToastModifier: ViewModifier {
               .opacity(toast.maskOpacity)
               .ignoresSafeArea(.all)
               .blur(radius: 20)
+#if !os(tvOS)
               .onTapGesture {
                 if toast.tapMaskToDismiss {
                   dismissToast()
                 }
               }
+#endif
           }
 
           mainToastView()
@@ -53,7 +55,7 @@ public struct ToastModifier: ViewModifier {
         showToast()
       }
   }
-  
+
   @ViewBuilder func mainToastView() -> some View {
     if let toast = toast {
       VStack {
@@ -87,27 +89,27 @@ public struct ToastModifier: ViewModifier {
       }.transition(toast.showMask ? .scale : .move(edge: toast.position == .top ? .top : .bottom))
     }
   }
-  
+
   private func showToast() {
     guard let toast = toast else { return }
-    
+
     if toast.duration > 0 {
       workItem?.cancel()
-      
+
       let task = DispatchWorkItem {
         dismissToast()
       }
-      
+
       workItem = task
       DispatchQueue.main.asyncAfter(deadline: .now() + toast.duration, execute: task)
     }
   }
-  
+
   private func dismissToast() {
     withAnimation(.easeOut(duration: 0.2)) {
       toastCoordinator.removeToast()
     }
-    
+
     workItem?.cancel()
     workItem = nil
   }
